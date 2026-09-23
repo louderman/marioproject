@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 // TODO: unity complained about me using legacy input handling. maybe recode this later down the line? priority: low
 public class PlayerMovement : MonoBehaviour
@@ -14,6 +15,8 @@ public class PlayerMovement : MonoBehaviour
     private bool faceRightState = true;
     public Transform enemy;
     public JumpOverGoomba scoring;
+    [SerializeField] private GameObject gameOverPanel; 
+    [SerializeField] private TMP_Text finalScore; 
     private Vector2 startingMarioPosition;
     private Vector3 startingEnemyLocalPosition;
 
@@ -37,6 +40,8 @@ public class PlayerMovement : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Enemy"))
         {
+            finalScore.text = "Score: " + scoring.score;                                                                                 
+            gameOverPanel.SetActive(true);  
             Time.timeScale = 0f;
         }
     }
