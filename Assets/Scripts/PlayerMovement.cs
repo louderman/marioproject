@@ -62,6 +62,7 @@ public class PlayerMovement : MonoBehaviour
         marioSprite.flipX = false;
         onGroundState = true;
         scoring.ResetScore();
+        gameOverPanel.SetActive(false);
     }
 
     // Update is called once per frame

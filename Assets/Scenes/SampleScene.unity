@@ -260,7 +260,7 @@ MonoBehaviour:
   enemy: {fileID: 326915887}
   scoring: {fileID: 33271826}
   gameOverPanel: {fileID: 2031632617}
-  finalScore: {fileID: 1703309138}
+  finalScore: {fileID: 1703309140}
 --- !u!61 &33271825
 BoxCollider2D:
   m_ObjectHideFlags: 0
