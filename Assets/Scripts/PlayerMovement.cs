@@ -6,8 +6,12 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public float speed = 10;
-    public float maxSpeed = 20;
+    public float upSpeed = 10;
+    public float maxSpeed = 20;   
     private Rigidbody2D marioBody;
+    private bool onGroundState = true;
+    private SpriteRenderer marioSprite;
+    private bool faceRightState = true;
 
     // Start is called before the first frame update
     void Start()
@@ -15,13 +19,27 @@ public class PlayerMovement : MonoBehaviour
         // Set to be 30 FPS
         Application.targetFrameRate =  30;
         marioBody = GetComponent<Rigidbody2D>();
+        marioSprite = GetComponent<SpriteRenderer>();
 
     }
 
-    // Update is called once per frame
-    void Update()
+    void OnCollisionEnter2D(Collision2D col)
     {
+        if (col.gameObject.CompareTag("Ground")) onGroundState = true;
+    }
 
+    // Update is called once per frame
+    void Update(){
+              // toggle state
+      if (Input.GetKeyDown("a") && faceRightState){
+          faceRightState = false;
+          marioSprite.flipX = true;
+      }
+
+      if (Input.GetKeyDown("d") && !faceRightState){
+          faceRightState = true;
+          marioSprite.flipX = false;
+      }
     }
 
     // FixedUpdate may be called once per frame. See documentation for details.
@@ -41,4 +59,11 @@ public class PlayerMovement : MonoBehaviour
             // stop
             marioBody.linearVelocity = Vector2.zero;
         }
+
+
+        if (Input.GetKeyDown("space") && onGroundState){
+            marioBody.AddForce(Vector2.up * upSpeed, ForceMode2D.Impulse);
+            onGroundState = false;
+        }
+    }
   }
