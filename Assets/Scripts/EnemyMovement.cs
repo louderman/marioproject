@@ -28,6 +28,11 @@ public class EnemyMovement : MonoBehaviour
     {
         enemyBody.MovePosition(enemyBody.position + velocity * Time.fixedDeltaTime);
     }
+    
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        Debug.Log(other.gameObject.name);
+    }
 
     // note that this is Update(), which still works but not ideal. See below.
     void FixedUpdate()
