@@ -12,6 +12,10 @@ public class PlayerMovement : MonoBehaviour
     private bool onGroundState = true;
     private SpriteRenderer marioSprite;
     private bool faceRightState = true;
+    public Transform enemy;
+    public JumpOverGoomba scoring;
+    private Vector2 startingMarioPosition;
+    private Vector3 startingEnemyLocalPosition;
 
     // Start is called before the first frame update
     void Start()
@@ -20,6 +24,8 @@ public class PlayerMovement : MonoBehaviour
         Application.targetFrameRate =  30;
         marioBody = GetComponent<Rigidbody2D>();
         marioSprite = GetComponent<SpriteRenderer>();
+        startingMarioPosition = marioBody.position;
+        if (enemy != null) startingEnemyLocalPosition = enemy.localPosition;
 
     }
 
@@ -31,8 +37,26 @@ public class PlayerMovement : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Enemy"))
         {
-            Debug.Log("Collided with goomba!");
+            Time.timeScale = 0f;
         }
+    }
+
+    public void RestartButtonCallback()
+    {
+        if (enemy == null || scoring == null)
+        {
+            Debug.LogError("Assign Enemy and Scoring on Mario's PlayerMovement component.");
+            return;
+        }
+
+        Time.timeScale = 1f;
+        marioBody.position = startingMarioPosition;
+        marioBody.linearVelocity = Vector2.zero;
+        enemy.localPosition = startingEnemyLocalPosition;
+        faceRightState = true;
+        marioSprite.flipX = false;
+        onGroundState = true;
+        scoring.ResetScore();
     }
 
     // Update is called once per frame
